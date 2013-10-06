@@ -32,11 +32,14 @@ def main():
 	# printCyclicList(newNode)
 	# print isBST(root)
 	# print MaximumValueContiguousSubSequence([-1, 2, 3, 1, -3, -2, 100])
-	logName = 'log.txt'
-	top10Log(logName)
+	# logName = 'log.txt'
+	# top10Log(logName)
+	# print isPerfectSquare(90)
+	# print stringCompress("aabbccddddddddd")
+	# rotateImageBy90([[1,1,1,1], [2,2,2,2], [3,3,3,3], [4,4,4,4]])
+	# ifAnElementIs0ThenSetEntireRowAndColumnToBe0([[0,1,1,0],[2,2,0,1],[0,0,0,1]])
 
-
-
+	print KMP_search("addddddbcdefghijk", "bcd")
 
 class Node:
 	def __init__(self, value):
@@ -391,7 +394,99 @@ def top10Log(logName):
 	print sorted_records[len(sorted_records) - 5:]
 	return
 
-def convert
+def isPerfectSquare(n):
+	a = 0
+	odd = 1
+	while a < n:
+		a = a + odd
+		if a == n:
+			return True
+		odd = odd + 2
+	return False
+
+
+def stringCompress(s):
+	result = ""
+	currentChar = s[0]
+	count = 1
+	for i in range(1, len(s)):
+		if s[i] == currentChar:
+			count = count + 1
+		else:
+			result = result + (currentChar + str(count))
+			count = 1
+			currentChar = s[i]
+	result = result + (currentChar + str(count))
+	if len(result) >= len(s):
+		return s
+	else:
+		return result
+
+def rotateImageBy90(matrix):
+	n = len(matrix)
+	for layer in range(n/2):
+		first = layer
+		last = n - 1 - layer
+		for i in range(first, last):
+			offset = i - first
+
+			top = matrix[first][i]
+			matrix[first][i] = matrix[last - offset][first]
+			matrix[last - offset][first] = matrix[last][last - offset]
+			matrix[last][last - offset] = matrix[i][last]
+			matrix[i][last] = top
+	print matrix
+	return
+
+def ifAnElementIs0ThenSetEntireRowAndColumnToBe0(matrix):
+	row = []
+	column = []
+	for i in range(len(matrix)):
+		row.append(False)
+	for i in range(len(matrix[0])):
+		column.append(False)
+
+	for i in range(len(matrix)):
+		for j in range(len(matrix[0])):
+			if matrix[i][j] == 0:
+				row[i] = True
+				column[j] = True
+	for i in range(len(matrix)):
+		for j in range(len(matrix[0])):
+			if (row[i] and column[j]):
+				matrix[i][j] = 0
+	print matrix
+
+
+def KMP_search(text, search_string):
+	next = preComputeTable(search_string)
+	j = 0
+	for i in range(len(text)):
+		if (text[i] == search_string[j]):
+			j += 1
+		else:
+			j = next[j]
+		if (j == len(search_string)):
+			return i - len(search_string) + 1
+
+
+def preComputeTable(search_string):
+	next = {}
+	for i in range(len(search_string)):
+		next[i] = 0
+	x = 0
+	for j in range(len(search_string)):
+		if (search_string[x] == search_string[j]):
+			next[j] = next[x]
+			x += 1
+		else:
+			next[j] = x + 1
+			x = next[x]
+	return next
+
+
+
+
 
 if __name__ == '__main__':
 	main()
