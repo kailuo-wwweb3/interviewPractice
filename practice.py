@@ -46,6 +46,7 @@ class Node:
 		self.data = value
 		self.left = None
 		self.right = None
+		self.parent = None
 
 class LLNode:
 	def __init__(self, value):

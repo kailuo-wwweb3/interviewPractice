@@ -36,7 +36,16 @@ def main():
 	# print findMedianOfAnArray([2,1,4,3, 8, 7,5,6])
 	# print addBinary("11", "1")
 	# testTrie()
-	print longestCommonSubstring("ABAB", "BABA")
+	# print longestCommonSubstring("ABAB", "BABA")
+	# print reverseArrayOfWordsInPlace([1,2,3,4])
+	# columns = [0] * GRID_SIZE
+	# results = []
+	# placeQueens(0, columns, results)
+	# print results
+	# print uniquePaths(3,7)
+	# print uniquePath_dp(3, 7)
+	root = practice.convertSortedArrayToBST([1,2,3,4,5,6,7,8,9])
+	print inorderSuccessor(root.left.left).data
 
 
 class Trie(object):
@@ -86,8 +95,34 @@ class Trie(object):
 			else:
 				yield node
 
+#union-find algorithm implementation
+class UFElement(object):
+	def __init__(self, value):
+		self.value = value
+		self.parent = None
+		self.rank = 0
 
 
+def makeSet(x):
+	x.parent = x
+	x.rank = 0
+
+def union(x, y):
+	xRoot = find(x)
+	yRoot = find(y)
+	if (xRoot == yRoot):
+		return
+	if xRoot.rank > yRoot.rank:
+		yRoot.parent = xRoot
+	elif xRoot.rank < yRoot.rank:
+		xRoot.parent = yRoot
+	else:
+		xRoot.parent = yRoot
+		yRoot.rank += 1
+def find(x):
+	while (x.parent != x):
+		x = x.parent
+	return x
 
 
 def testTrie():
@@ -485,6 +520,93 @@ def addBinary(a, b):
 	if (carry == 1):
 		result.insert(0, str(carry))
 	return "".join(result)
+
+def reverseArrayOfWordsInPlace(array):
+	i, j = 0, len(array) - 1
+	while i <= j:
+		array[i], array[j] = array[j], array[i]
+		i += 1
+		j -= 1
+	return array
+
+def decodeWays(s):
+	n = len(s)
+	if (n == 0):
+		return 0
+	c = [0] * n
+	c[0] = 1
+	for i in range(1, n + 1):
+		c1 = 0
+		if (s[i - 1] != '0'):
+			c1 = c[i - 1]
+		c2 = 0
+		if (i >= 2 and (s[i - 2] == '1' or s[i - 2] == '2' and s[i - 1] <= '6')):
+			c2 = c[i - 2]
+		c[i] = c1 + c2
+	return c[n]
+
+# N queens
+GRID_SIZE = 4
+def placeQueens(row, columns, results):
+	if (row == GRID_SIZE):
+		results.append(copy.copy(columns))
+	else:
+		for col in range(GRID_SIZE):
+			if (checkValid(columns, row, col)):
+				columns[row] = col
+				placeQueens(row + 1, columns, results)
+
+def checkValid(columns, row1, column1):
+	for row2 in range(row1):
+		column2 = columns[row2]
+		if (column1 == column2):
+			return False
+		columnDistance = abs(column2 - column1)
+		rowDistance = row1 - row2
+		if (columnDistance == rowDistance):
+			return False
+	return True
+
+def uniquePaths(m, n):
+	table = {}
+	paths = uniquePaths_helper(0, 0, m, n, table)
+	print table
+	return paths
+
+def uniquePaths_helper(currentX, currentY, m, n, table):
+	if (table.has_key((currentX, currentY))):
+		return table[(currentX, currentY)]
+	if (currentX == m - 1 and currentY == n - 1):
+		table[(currentX, currentY)] = 1
+		return 1
+	if (currentX > m - 1 or currentY > n - 1):
+		return 0
+	table[(currentX, currentY)] = uniquePaths_helper(currentX + 1, currentY, m, n, table) + uniquePaths_helper(currentX, currentY + 1, m, n, table)
+	return table[(currentX, currentY)]
+
+def uniquePath_dp(m, n):
+	table = {}
+	for i in range(m):
+		table[(i, n - 1)] = 1
+	for i in range(n):
+		table[(m - 1, i)] = 1
+	for i in range(m - 2, -1, -1):
+		for j in range(n - 2, -1, -1):
+			table[(i, j)] = table[(i + 1, j)] + table[(i, j + 1)]
+	return table[(0, 0)]
+
+def inorderSuccessor(n):
+	if (n.right != None):
+		current = n.right
+		while (current.left != None):
+			current = current.left
+		return current
+	else:
+		while (n.parent != None and n.parent.left != n):
+			n = n.parent
+		return n
+
+
 
 
 if __name__ == '__main__':
