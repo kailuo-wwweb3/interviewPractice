@@ -44,12 +44,16 @@ def main():
 	# print results
 	# print uniquePaths(3,7)
 	# print uniquePath_dp(3, 7)
-	# root = practice.convertSortedArrayToBST([1,2,3,4,5,6,7,8,9])
+	root = practice.convertSortedArrayToBST([1,2,3,4,5])
 	# print inorderSuccessor(root.left.left).data
 	# print decodeWays("12101123432")
 	# print maximumSubArray([-2,1,-3,4,-1,2,1,-5,4])
 	# minimumPathSum([[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], 5, 5)
-	print bestTimeToBuyAndShareStock([2,3,4,1,3,7])
+	# print bestTimeToBuyAndShareStock([2,3,4,1,3,7])
+	# print root.right.data
+	displayFlattenTree(flattenTree(root))
+
+
 
 
 class Trie(object):
@@ -659,8 +663,25 @@ def bestTimeToBuyAndShareStock(array):
 			pSmallest = (array[i], i)
 	return (smallest[0], largest[0])
 
-def flattenBinaryTree(root):
-	
+def flattenTree(root):
+	if (root == None):
+		return None
+	left = root.left
+	right = copy.copy(root.right)
+	if (left != None):
+		root.right = flattenTree(left)
+		root.left = None
+	if (right != None):
+		current = root.right
+		while (current.right != None):
+			current = current.right
+		current.right = flattenTree(right)
+	return root
+
+def displayFlattenTree(root):
+	while (root != None):
+		print root.data
+		root = root.right
 
 
 if __name__ == '__main__':
