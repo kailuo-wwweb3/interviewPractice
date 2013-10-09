@@ -44,8 +44,12 @@ def main():
 	# print results
 	# print uniquePaths(3,7)
 	# print uniquePath_dp(3, 7)
-	root = practice.convertSortedArrayToBST([1,2,3,4,5,6,7,8,9])
-	print inorderSuccessor(root.left.left).data
+	# root = practice.convertSortedArrayToBST([1,2,3,4,5,6,7,8,9])
+	# print inorderSuccessor(root.left.left).data
+	# print decodeWays("12101123432")
+	# print maximumSubArray([-2,1,-3,4,-1,2,1,-5,4])
+	# minimumPathSum([[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], 5, 5)
+	print bestTimeToBuyAndShareStock([2,3,4,1,3,7])
 
 
 class Trie(object):
@@ -606,7 +610,57 @@ def inorderSuccessor(n):
 			n = n.parent
 		return n
 
+def decodeWays(s):
+	n = len(s)
+	if n == 0:
+		return 0
+	record = [0] * (n + 1)
+	record[0] = 1
+	for i in range(1, n + 1):
+		# consider for one digit
+		c1 = c2 = 0
+		if (s[i - 1] != '0'):
+			c1 = record[i - 1]
+		if ((i >= 2) and ((s[i - 2] == '1') or (s[i - 2] == '2' and s[i - 1] <= '6'))):
+			c2 = record[i - 2]
+		record[i] = c1 + c2
+	print record
+	return record[n]
 
+def maximumSubArray(array):
+	maxSoFar = maxSum = 0
+	for i in array:
+		maxSoFar += i
+		maxSoFar = max(maxSoFar, 0)
+		maxSum = max(maxSoFar, maxSum)
+	return maxSum
+
+def minimumPathSum(matrix, m, n):
+	table = {}
+	for i in range(m - 2, -1, -1):
+		table[(i, n - 1)] = matrix[i][n - 1] + matrix[i + 1][n - 1]
+	for i in range(n - 2, -1, -1):
+		table[(m - 1, i)] = matrix[m - 1][i] + matrix[m - 1][i + 1]
+	for i in range(m - 2, -1, -1):
+		for j in range(n - 2, -1, -1):
+			table[(i, j)] = min(table[(i + 1, j)], table[(i, j + 1)]) + matrix[i][j]
+	print table
+
+
+def bestTimeToBuyAndShareStock(array):
+	smallest = pSmallest = (array[0], 0)
+	largest = (array[1], 1)
+	for i in range(2, len(array)):
+		if (array[i] > largest[0]):
+			largest = (array[i], i)
+			if (pSmallest[1] > smallest[1]):
+				smallest = pSmallest
+		if (array[i] < smallest[0]):
+			pSmallest = (array[i], i)
+	return (smallest[0], largest[0])
+
+def flattenBinaryTree(root):
+	
 
 
 if __name__ == '__main__':
