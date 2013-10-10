@@ -53,7 +53,7 @@ def main():
 	# print bestTimeToBuyAndShareStock([2,3,4,1,3,7])
 	# print root.right.data
 	# displayFlattenTree(flattenTree(root))
-	print minimumTriangle([2, 10, 12, 13])
+	print minimumTriangle([10, 30, 20, 101, 102, 103, 10000, 10001, 10002])
 
 
 
@@ -699,25 +699,21 @@ def minimumTriangle(array):
 	array.sort()
 	for i in range(len(array)):
 		array[i] = ValueIndex(array[i], i)
-	heap = []
-	heap.append(array[0])
-	heap.append(array[1])
-	heap.append(array[2])
+	a = array[0]
+	b = array[1]
+	c = array[2]
 	while (True):
-		if (heap[0].value + heap[1].value > heap[2].value):
-			return [heap[0].value, heap[1].value, heap[2].value]
-		elif (heap[2].index < n - 1):
-			heap[1] = ValueIndex(array[heap[2].index + 1].value, heap[2].index + 1)
-			heap[1], heap[2] = heap[2], heap[1]
-			continue
+		if (a.value + b.value > c.value):
+			return [a.value, b.value, c.value]
 		else:
-			if (heap[0].index + 1 < heap[1].index):
-				heap[0] = ValueIndex(array[heap[0].index + 1].value, heap[0].index + 1)
-				continue
+			if ((a.index == b.index - 1) or (c.index < n - 1 and (array[c.index + 1].value - b.value < array[a.index + 1].value - a.value))):
+				b = ValueIndex(array[c.index + 1].value, c.index + 1)
+				b, c = c, b
+			elif ((c.index == n - 1) or (array[c.index + 1].value - b.value > array[a.index + 1].value - a.value)):
+				a = ValueIndex(array[a.index + 1].value, a.index + 1)
 			else:
 				break
 	return []
-
 
 if __name__ == '__main__':
 	main()
