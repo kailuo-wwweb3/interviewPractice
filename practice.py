@@ -48,6 +48,7 @@ class Node:
 		self.right = None
 		self.parent = None
 
+		
 class LLNode:
 	def __init__(self, value):
 		self.data = value
@@ -484,10 +485,6 @@ def preComputeTable(search_string):
 			next[j] = x + 1
 			x = next[x]
 	return next
-
-
-
-
 
 if __name__ == '__main__':
 	main()

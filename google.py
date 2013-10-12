@@ -53,7 +53,17 @@ def main():
 	# print bestTimeToBuyAndShareStock([2,3,4,1,3,7])
 	# print root.right.data
 	# displayFlattenTree(flattenTree(root))
-	print minimumTriangle([10, 30, 20, 101, 102, 103, 10000, 10001, 10002])
+	# print minimumTriangle([10, 30, 20, 101, 102, 103, 10000, 10001, 10002])
+	# print romanToInteger("MMX|||")
+	# print exp(4,3)
+	# print palindromPartition("aab")
+	print regularExpressionMatching("aa", "a")
+	print regularExpressionMatching("aa", "aa")
+	print regularExpressionMatching("aaa", "aa")
+	print regularExpressionMatching("aa", "a*")
+	print regularExpressionMatching("aa", ".")
+	print regularExpressionMatching("ab", ".*")
+	print regularExpressionMatching("aab", "c*a*b")
 
 
 
@@ -714,6 +724,62 @@ def minimumTriangle(array):
 			else:
 				break
 	return []
+
+def romanToInteger(string):
+	table = {'|':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
+	result = 0
+	for i in string:
+		result += table[i]
+	return result
+
+def exp(x, n):
+	if (n == 0):
+		return 1
+	if (n == 1):
+		return x
+	if (n % 2 != 0):
+		return exp(x, n / 2) * exp(x, n / 2) * x
+	else:
+		return exp(x, n / 2) * exp(x, n / 2)
+
+
+def palindromPartition(string):
+	if (string == None or len(string) == 0):
+		return []
+	isPal = {}
+	for i in range(len(string)):
+		isPal[(i, i)] = True
+	for i in range(len(string) - 1):
+		if (string[i] == string[i + 1]):
+			isPal[(i, i + 1)] = True
+	return palindromPartitionHelper(string, 0, isPal)
+
+def palindromPartitionHelper(string, start, isPal):
+	pa = []
+	if (start > len(string) - 1):
+		return [[]]
+	for i in range(start, len(string)):
+		if (isPal.has_key((start, i)) and isPal[(start, i)]):
+			for subPal in palindromPartitionHelper(string, i + 1, isPal):
+				subPal.append(string[start : i + 1])
+				pa.append(subPal)
+	return pa
+
+def regularExpressionMatching(s, p):
+	if (p == ""):
+		return s == ""
+	if ((len(p) >= 2 and p[1] != '*') or (len(p) == 1)):
+		return (p[0] == s[0] or p[0] == '.') and regularExpressionMatching(s[1:], p[1:])
+	else:
+		index_s = 0
+		while (index_s < len(s) and ((p[0] == s[index_s]) or (p[0] == '.'))):
+			if (regularExpressionMatching(s[index_s:], p[2:])):
+				return True
+			index_s += 1
+		return regularExpressionMatching(s[index_s:], p[2:])
+
+def medianOfTwoSortedArray(array1, array2):
+	
 
 if __name__ == '__main__':
 	main()
