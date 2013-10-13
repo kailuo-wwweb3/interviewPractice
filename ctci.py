@@ -1,3 +1,7 @@
+import practice
+import google
+import copy
+
 def main():
 	print hasAllUniqueCharacters("abcda")
 	print isPermutationEachOther("abcde", "adeab")
@@ -6,6 +10,20 @@ def main():
 	print test1
 	print compressString("aabcccccaaa")
 
+	head = convertArrayToLinkedList([1,1,1,1,1,1,1,1,1,1,1,1])
+	# google.displayLL(head)
+	google.displayLL(removeDuplicatesFromUnsortedLinkedListWithoutBuffer(head))
+
+
+def convertArrayToLinkedList(array):
+	head = practice.LLNode(array[0])
+	current = head
+	i = 1
+	while (i < len(array)):
+		current.next = practice.LLNode(array[i])
+		i += 1
+		current = current.next
+	return head
 
 
 def hasAllUniqueCharacters(string):
@@ -66,8 +84,43 @@ def compressString(charArray):
 		return charArray
 	return newCharArray
 
-# def rotateMatrix(matrix):
-	
+def removeDuplicatesFromUnsortedLinkedList(head):
+	current = head
+	table = {head.data : True}
+	while (current != None and current.next != None):
+		if (table.has_key(current.next.data)):
+			current.next = current.next.next
+		else:
+			table[current.next.data] = True
+			current = current.next
+	return head
+
+def removeDuplicatesFromUnsortedLinkedListWithoutBuffer(head):
+	current = head
+	while (current != None):
+		currentCopy = current
+		while (currentCopy.next != None):
+			if (currentCopy.next.data == current.data):
+				currentCopy.next = currentCopy.next.next
+			else:
+				currentCopy = currentCopy.next
+		current = current.next
+	return head
+
+def partitionLinkedList(head, x):
+	current = tail = head
+	while (tail.next != None):
+		tail = tail.next
+	while (current.next != None):
+		if (current.next.data < x):
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
 	main()

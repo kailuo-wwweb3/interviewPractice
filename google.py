@@ -778,7 +778,7 @@ def regularExpressionMatching(s, p):
 			index_s += 1
 		return regularExpressionMatching(s[index_s:], p[2:])
 
-def medianOfTwoSortedArray(array1, array2):
+# def medianOfTwoSortedArray(array1, array2):
 	
 
 if __name__ == '__main__':
