@@ -1,6 +1,11 @@
 def main():
 	print hasAllUniqueCharacters("abcda")
 	print isPermutationEachOther("abcde", "adeab")
+	test1 = list("Mr John Smith    ")
+	relaceSpacesInString(test1)
+	print test1
+	print compressString("aabcccccaaa")
+
 
 
 def hasAllUniqueCharacters(string):
@@ -28,10 +33,41 @@ def isPermutationEachOther(s1, s2):
 				return False
 	return True
 
-def relaceSpacesInString(string):
-	charArray = list(string)
-	for 
+def relaceSpacesInString(charArray):
+	length = len(charArray)
+	i = length - 1
+	while (charArray[i] == ' '):
+		i -= 1
+	j = length - 1
+	while (j >= 0):
+		if (charArray[i] == ' '):
+			charArray[j - 2] = '%'
+			charArray[j - 1] = '2'
+			charArray[j] = '0'
+			j -= 3
+		else:
+			charArray[j] = charArray[i]
+			j -= 1
+		i -= 1
 
+def compressString(charArray):
+	newCharArray = []
+	count = 1
+	for i in range(1, len(charArray)):
+		if (charArray[i] == charArray[i - 1]):
+			count += 1
+		else:
+			newCharArray.append(charArray[i - 1])
+			newCharArray.append(str(count))
+			count = 1
+	newCharArray.append(charArray[i - 1])
+	newCharArray.append(str(count))
+	if (len(newCharArray) >= len(charArray)):
+		return charArray
+	return newCharArray
+
+# def rotateMatrix(matrix):
+	
 
 if __name__ == '__main__':
 	main()
