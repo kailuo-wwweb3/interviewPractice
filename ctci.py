@@ -3,16 +3,19 @@ import google
 import copy
 
 def main():
-	print hasAllUniqueCharacters("abcda")
-	print isPermutationEachOther("abcde", "adeab")
-	test1 = list("Mr John Smith    ")
-	relaceSpacesInString(test1)
-	print test1
-	print compressString("aabcccccaaa")
+	# print hasAllUniqueCharacters("abcda")
+	# print isPermutationEachOther("abcde", "adeab")
+	# test1 = list("Mr John Smith    ")
+	# relaceSpacesInString(test1)
+	# print test1
+	# print compressString("aabcccccaaa")
 
-	head = convertArrayToLinkedList([1,1,1,1,1,1,1,1,1,1,1,1])
+	head1 = convertArrayToLinkedList([7,1,6])
+	head2 = convertArrayToLinkedList([5,9,2])
 	# google.displayLL(head)
-	google.displayLL(removeDuplicatesFromUnsortedLinkedListWithoutBuffer(head))
+	# google.displayLL(removeDuplicatesFromUnsortedLinkedListWithoutBuffer(head))
+	# google.displayLL(partitionLinkedList(head, 3))
+	google.displayLL(addTwoNumbers(head1, head2))
 
 
 def convertArrayToLinkedList(array):
@@ -108,11 +111,49 @@ def removeDuplicatesFromUnsortedLinkedListWithoutBuffer(head):
 	return head
 
 def partitionLinkedList(head, x):
-	current = tail = head
-	while (tail.next != None):
-		tail = tail.next
-	while (current.next != None):
-		if (current.next.data < x):
+	beforeStart = beforeEnd = afterStart = afterEnd = None
+	current = head
+	while (current != None):
+		if (current.data < x):
+			if (beforeStart == None):
+				beforeStart = practice.LLNode(current.data)
+				beforeEnd = beforeStart
+			else:
+				beforeEnd.next = practice.LLNode(current.data)
+				beforeEnd = beforeEnd.next
+		else:
+			if (afterStart == None):
+				afterStart = practice.LLNode(current.data)
+				afterEnd = afterStart
+			else:
+				afterEnd.next = practice.LLNode(current.data)
+				afterEnd = afterEnd.next
+		current = current.next
+	beforeEnd.next = afterStart
+	return beforeStart
+
+def addTwoNumbers(head1, head2):
+	return addTwoNumbers_helper(head1, head2, 0)
+
+def addTwoNumbers_helper(head1, head2, carry):
+	if (head1 == None and head2 == None):
+		if (carry != 0):
+			return practice.LLNode(carry)
+		else:
+			return None
+	sumVal = carry
+	if (head1 != None):
+		sumVal += head1.data
+	if (head2 != None):
+		sumVal += head2.data
+	sumNode = practice.LLNode(sumVal % 10)
+	nextCarry = 1 if sumVal > 10 else 0
+	sumNode.next = addTwoNumbers_helper(head1.next, head2.next, nextCarry)
+	return sumNode
+
+
+
+
 
 
 
