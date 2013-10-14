@@ -10,12 +10,32 @@ def main():
 	# print test1
 	# print compressString("aabcccccaaa")
 
-	head1 = convertArrayToLinkedList([7,1,6])
-	head2 = convertArrayToLinkedList([5,9,2])
+	# head1 = convertArrayToLinkedList([7,1,6])
+	# head2 = convertArrayToLinkedList([5,9,2])
 	# google.displayLL(head)
 	# google.displayLL(removeDuplicatesFromUnsortedLinkedListWithoutBuffer(head))
 	# google.displayLL(partitionLinkedList(head, 3))
-	google.displayLL(addTwoNumbers(head1, head2))
+	# google.displayLL(addTwoNumbers(head1, head2))
+	# root = practice.convertSortedArrayToBST([1,2,3,4,5])
+	# for i in createLinkedListsOfAllNodesAtEachDepth(root):
+		# print [j.data for j in i]
+
+	# node1 = practice.Node(1)
+	# node2 = practice.Node(2)
+	# node3 = practice.Node(3)
+	# node4 = practice.Node(4)
+	# node5 = practice.Node(5)
+	# node1.left = node2
+	# node2.parent = node1
+	# node2.left = node3
+	# node2.right = node4
+	# node3.parent = node2
+	# node4.parent = node2
+	# node4.right = node5
+	# node5.parent = node4
+
+	# print inorderSuccessor(node3).data
+
 
 
 def convertArrayToLinkedList(array):
@@ -151,16 +171,78 @@ def addTwoNumbers_helper(head1, head2, carry):
 	sumNode.next = addTwoNumbers_helper(head1.next, head2.next, nextCarry)
 	return sumNode
 
+# implement three stacks using a single array.
+# array = [1,2,3,4,5,6,7,8,9]
+# pointers = [-1,-1,-1]
+# def push(i, element):
+# 	if (pointers[i] == -1):
+# 		pointers[i] = i / 3
+# 	if (pointers[i] == (i + 1) / 3):
 
+# 	else:
+# 		pointers[i] += 1
+# 	array[pointers[i]] = element
 
+# def pop(i):
+# 	if (pointers[i] == -1):
+# 		return None
+# 	top = array[pointers]
+# 	pointers[i] -= 1
+# 	return top
 
+def createLinkedListsOfAllNodesAtEachDepth(root):
+	lists = []
+	createLinkedListsOfAllNodesAtEachDepth_helper(root, 0, lists)
+	return lists
 
+def createLinkedListsOfAllNodesAtEachDepth_helper(node, level, lists):
+	if (node == None):
+		return
+	if (len(lists) == level):
+		levelList = [node]
+		lists.append(levelList)
+	else:
+		lists[level].append(node)
+	createLinkedListsOfAllNodesAtEachDepth_helper(node.left, level + 1, lists)
+	createLinkedListsOfAllNodesAtEachDepth_helper(node.right, level + 1, lists)
 
+def inorderSuccessor(node):
+	if (node.parent == None or node.right != None):
+		leftChild = node.right
+		while (leftChild != None and leftChild.left != None):
+			leftChild = leftChild.left
+		return leftChild
+	else:
+		q = node
+		parent = node.parent
+		while (parent != None and parent.left != q):
+			q = parent
+			parent = q.parent
+		return parent
 
+# version with Binary tree
+def lowestCommonAncestor(root, node1, node2):
+	if (root == None or root == node1 or root == node2):
+		return root
+	left = lowestCommonAncestor(root.left, node1, node2)
+	right = lowestCommonAncestor(root.right, node1, node2)
+	if (left != None and right != None):
+		return root
+	elif (left != None):
+		return left
+	else:
+		return right
 
-
-
-
+# version with Binary search tree
+def lowestCommonAncestorBST(root, node1, node2):
+	if (root == None or root == node1 or root == node2):
+		return root
+	if (max(node1.data, node2.data) < root.data):
+		return lowestCommonAncestorBST(root.left, node1, node2)
+	elif (min(node1.data, node2.data) > root.data):
+		return lowestCommonAncestorBST(root.right, node1, node2)
+	else:
+		return root
 
 
 if __name__ == '__main__':
