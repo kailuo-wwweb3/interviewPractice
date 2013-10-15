@@ -22,7 +22,7 @@ def main():
 	# l3.next = l4
 	# head = swapNodesInPair(l1)
 	# displayLL(head)
-	# print combinations(4,3)
+	print combinations(10, 2)
 	# root = practice.convertSortedArrayToBST([1,2,3,4,5])
 	# print sumRootToLeafNumbers(root)
 	"""
@@ -57,13 +57,13 @@ def main():
 	# print romanToInteger("MMX|||")
 	# print exp(4,3)
 	# print palindromPartition("aab")
-	print regularExpressionMatching("aa", "a")
-	print regularExpressionMatching("aa", "aa")
-	print regularExpressionMatching("aaa", "aa")
-	print regularExpressionMatching("aa", "a*")
-	print regularExpressionMatching("aa", ".")
-	print regularExpressionMatching("ab", ".*")
-	print regularExpressionMatching("aab", "c*a*b")
+	# print regularExpressionMatching("aa", "a")
+	# print regularExpressionMatching("aa", "aa")
+	# print regularExpressionMatching("aaa", "aa")
+	# print regularExpressionMatching("aa", "a*")
+	# print regularExpressionMatching("aa", ".")
+	# print regularExpressionMatching("ab", ".*")
+	# print regularExpressionMatching("aab", "c*a*b")
 
 
 

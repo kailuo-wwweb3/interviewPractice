@@ -35,6 +35,16 @@ def main():
 	# node5.parent = node4
 
 	# print inorderSuccessor(node3).data
+	'''
+	a a a a 
+	b b b b
+	c c c c
+	d d d d
+	'''
+	matrix = [['a', 'a','a','a'], ['b','b','b','b'], ['c','c','c','c'],['d','d','d','d']]
+	rotateMatrix(matrix)
+	print matrix
+
 
 
 
@@ -243,6 +253,20 @@ def lowestCommonAncestorBST(root, node1, node2):
 		return lowestCommonAncestorBST(root.right, node1, node2)
 	else:
 		return root
+
+def rotateMatrix(matrix):
+	n = len(matrix)
+	for layer in range(n / 2):
+		first = layer
+		last = n - 1 - layer
+		for i in range(first, last):
+			offset = i - first
+			top = matrix[first][i]
+			matrix[first][i] = matrix[last - offset][first]
+			matrix[last - offset][first] = matrix[last][last - offset]
+			matrix[last][last - offset] = matrix[i][last]
+			matrix[i][last] = top
+
 
 
 if __name__ == '__main__':
