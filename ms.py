@@ -437,8 +437,5 @@ def mutateList(ls):
 				flag = False
 				ls[i], ls[i + 1] = ls[i + 1], ls[i]
 
-
-
-
 if __name__ == '__main__':
 	main()

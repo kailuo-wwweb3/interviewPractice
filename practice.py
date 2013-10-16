@@ -47,6 +47,8 @@ class Node:
 		self.left = None
 		self.right = None
 		self.parent = None
+		self.next = None
+		self.level = 0
 
 		
 class LLNode:

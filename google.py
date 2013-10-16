@@ -22,7 +22,7 @@ def main():
 	# l3.next = l4
 	# head = swapNodesInPair(l1)
 	# displayLL(head)
-	print combinations(10, 2)
+	# print combinations(10, 2)
 	# root = practice.convertSortedArrayToBST([1,2,3,4,5])
 	# print sumRootToLeafNumbers(root)
 	"""
@@ -45,7 +45,7 @@ def main():
 	# print results
 	# print uniquePaths(3,7)
 	# print uniquePath_dp(3, 7)
-	# root = practice.convertSortedArrayToBST([1,2,3,4,5])
+	root = practice.convertSortedArrayToBST([1,2,3,4,5])
 	# print inorderSuccessor(root.left.left).data
 	# print decodeWays("12101123432")
 	# print maximumSubArray([-2,1,-3,4,-1,2,1,-5,4])
@@ -64,7 +64,12 @@ def main():
 	# print regularExpressionMatching("aa", ".")
 	# print regularExpressionMatching("ab", ".*")
 	# print regularExpressionMatching("aab", "c*a*b")
-
+	# populateNextRightPointer2(root)
+	# print divideTwoIntegers(100, 5)
+	ls = [6,7,8,9,10,11,1,2,3,4,5]
+	# print searchInRSA(ls, 2)
+	for i in ls:
+		print searchInRSA(ls, i)
 
 
 
@@ -779,7 +784,95 @@ def regularExpressionMatching(s, p):
 		return regularExpressionMatching(s[index_s:], p[2:])
 
 def combinationSum(ls, target):
-	
+	result = []
+	combinationSum_helper(ls, target, result)
+	return result
+
+# not constant space.
+def populateNextRightPointer(root):
+	setUpLevels(root, 0)
+	queue = [root]
+	previous = None
+	while (queue != []):
+		current = queue.pop(0)
+		if (previous != None and previous.level == current.level):
+			previous.next = current
+		if (current.left != None):
+			queue.append(current.left)
+		if (current.right != None):
+			queue.append(current.right)
+		previous = current
+	return root
+
+def setUpLevels(node, level):
+	if (node == None):
+		return
+	node.level = level
+	setUpLevels(node.left, level + 1)
+	setUpLevels(node.right, level + 1)
+
+# with constant space
+def populateNextRightPointer2(root):
+	leftWall = root
+	while (leftWall != None):
+		across = leftWall
+		while (across != None):
+			if (across.left != None):
+				across.left.next = across.right
+			if (across.right != None and across.next != None):
+				across.right.next = across.next.left
+			across = across.next
+		leftWall = leftWall.left
+
+# a / b
+def divideTwoIntegers(a, b):
+	if (a < b):
+		return 0
+	return 1 + divideTwoIntegers(a - b, b)
+
+def searchInRSA(array, k):
+	return searchInRSA_helper(array, k, 0, len(array) - 1)
+
+def searchInRSA_helper(array, k, start, end):
+	if (start >= end):
+		if (array[end] == k):
+			return True
+		else:
+			return False
+	mid = (start + end) / 2
+	if (array[mid] == k):
+		return True
+	if ((array[mid] > k and k >= array[start]) or (array[mid] < array[end] and (k < array[mid] or k > array[end]))):
+		return searchInRSA_helper(array, k, start, mid)
+	else:
+		return searchInRSA_helper(array, k, mid + 1, end)
+
+def searchForRange(ls, target):
+	return searchForRange_helper(ls, target, 0, len(ls) - 1)
+
+def searchForRange_helper(ls, target, start, end):
+	if (ls[start] == ls[end] == target):
+		return (start, end)
+	mid = (start + end) / 2
+	if (array[mid] < target):
+		return searchForRange_helper(ls, target, mid + 1, end)
+	elif (array[mid] > target):
+		return searchForRange_helper(ls, target, start, mid - 1)
+	else:
+		head = tail = mid
+		while ((array[head] == target and head > start) or (array[tail] == target and tail < end)):
+			if (array[head] == target):
+				head -= 1
+			if (array[tail] == target):
+				tail += 1
+		return (head, tail)
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
 	main()
