@@ -42,7 +42,10 @@ def main():
 	# print head1
 	# sumHead = sumOfLinkedList(head1, head2)
 	# printLL(sumHead)
-	print fib()
+	ls = [1,-2,3,-4,5]
+	mutateList(ls)
+	print ls
+	print "---"
 
 
 def printLL(head):
@@ -423,6 +426,19 @@ def matrix_power(m, n):
 
 def fib(n):
 	return matrix_power([[0,1],[1,1]], n)[0][1]
+
+
+def mutateList(ls):
+	flag = False
+	while (not flag):
+		flag = True
+		for i in range(len(ls) - 1):
+			if (ls[i] < 0 and ls[i + 1] > 0):
+				flag = False
+				ls[i], ls[i + 1] = ls[i + 1], ls[i]
+
+
+
 
 if __name__ == '__main__':
 	main()

@@ -41,9 +41,14 @@ def main():
 	c c c c
 	d d d d
 	'''
-	matrix = [['a', 'a','a','a'], ['b','b','b','b'], ['c','c','c','c'],['d','d','d','d']]
-	rotateMatrix(matrix)
-	print matrix
+	# matrix = [['a', 'a','a','a'], ['b','b','b','b'], ['c','c','c','c'],['d','d','d','d']]
+	# rotateMatrix(matrix)
+	# print matrix
+	# generator = createGenerator()
+	# print generator
+	# for i in generator:
+		# print i
+
 
 
 
@@ -266,6 +271,12 @@ def rotateMatrix(matrix):
 			matrix[last - offset][first] = matrix[last][last - offset]
 			matrix[last][last - offset] = matrix[i][last]
 			matrix[i][last] = top
+
+def createGenerator():
+	myList = range(3)
+	for i in myList:
+		yield i * i
+ 
 
 
 
