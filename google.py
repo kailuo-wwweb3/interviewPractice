@@ -66,10 +66,13 @@ def main():
 	# print regularExpressionMatching("aab", "c*a*b")
 	# populateNextRightPointer2(root)
 	# print divideTwoIntegers(100, 5)
-	ls = [6,7,8,9,10,11,1,2,3,4,5]
+	# ls = [6,7,8,9,10,11,1,2,3,4,5]
 	# print searchInRSA(ls, 2)
-	for i in ls:
-		print searchInRSA(ls, i)
+	# for i in ls:
+		# print searchInRSA(ls, i)
+	# print searchForRange([1,4,4,4,5,6,7], 4)
+	# print threeSum([-25, -10, -7, -3, 2, 4, 8, 10], -25)
+	print generateParentheses(4)
 
 
 
@@ -850,23 +853,81 @@ def searchInRSA_helper(array, k, start, end):
 def searchForRange(ls, target):
 	return searchForRange_helper(ls, target, 0, len(ls) - 1)
 
-def searchForRange_helper(ls, target, start, end):
-	if (ls[start] == ls[end] == target):
+def searchForRange_helper(array, target, start, end):
+	if (array[start] == array[end] == target):
 		return (start, end)
 	mid = (start + end) / 2
 	if (array[mid] < target):
-		return searchForRange_helper(ls, target, mid + 1, end)
+		return searchForRange_helper(array, target, mid + 1, end)
 	elif (array[mid] > target):
-		return searchForRange_helper(ls, target, start, mid - 1)
+		return searchForRange_helper(array, target, start, mid - 1)
 	else:
 		head = tail = mid
-		while ((array[head] == target and head > start) or (array[tail] == target and tail < end)):
-			if (array[head] == target):
+		while ((array[head - 1] == target and head > start) or (array[tail + 1] == target and tail < end)):
+			if (array[head - 1] == target):
 				head -= 1
-			if (array[tail] == target):
+			if (array[tail + 1] == target):
 				tail += 1
 		return (head, tail)
 
+def stringToInteger(string):
+	if (string == None):
+		return None
+	p = 0
+	while (string[p] == ' '):
+		p += 1
+	sign = 1
+	if (string[p] == '-'):
+		sign = -1
+		p += 1
+	if (string[p] == '+'):
+		sign = 1
+		p += 1
+	num = 0
+	while (ord(string[p]) >= 48 and ord(string[p]) <= 57):
+		if ((num == 214748364 and string[p] > '7') or (num > 214748364)):
+			pass
+		num = 10 * num + int(string[p])
+		p += 1
+	return sign * num
+
+def threeSum(array, val):
+	result = []
+	array.sort()
+	n = len(array)
+	for i in range(n - 3):
+		a = array[i]
+		k = i + 1
+		l = n - 1
+		while (k < l):
+			b = array[k]
+			c = array[l]
+			if (a + b + c == val):
+				result.append((a,b,c))
+				k += 1
+				l -= 1
+			elif (a + b + c > val):
+				l -= 1
+			else:
+				k += 1
+	return result
+
+def generateParentheses(n):
+	storeSet = []
+	if (n == 0):
+		storeSet.append("")
+	else:
+		previousSet = generateParentheses(n - 1)
+		for element in previousSet:
+			# insert front
+			if (("()" + element) not in storeSet):
+				storeSet.append("()" + element)
+			for i in range(len(element)):
+				if (element[i] == '('):
+					contResult = element[0:i + 1] + "()" + element[i + 1 : ]
+					if (contResult not in storeSet):
+						storeSet.append(contResult)
+	return storeSet
 
 
 
