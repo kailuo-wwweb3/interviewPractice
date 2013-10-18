@@ -72,7 +72,13 @@ def main():
 		# print searchInRSA(ls, i)
 	# print searchForRange([1,4,4,4,5,6,7], 4)
 	# print threeSum([-25, -10, -7, -3, 2, 4, 8, 10], -25)
-	print generateParentheses(4)
+	# print generateParentheses(4)
+	# print strStr("", "asdf")
+	# array = [1,2,3,3,4,5]
+	# print removeDuplicatesFromSortedArray(array)
+	# print sqrt(3)
+	# print pathSum(root, 12)
+	print reverseInteger(123)
 
 
 
@@ -634,6 +640,8 @@ def inorderSuccessor(n):
 			n = n.parent
 		return n
 
+
+
 def decodeWays(s):
 	n = len(s)
 	if n == 0:
@@ -929,10 +937,78 @@ def generateParentheses(n):
 						storeSet.append(contResult)
 	return storeSet
 
+def strStr(text, target):
+	text_length = len(text)
+	target_length = len(target)
+	for i in range(text_length - target_length):
+		match = 0
+		for p in range(i, i + target_length):
+			if (text[p] == target[p - i]):
+				match += 1
+		if (match == target_length):
+			return i
+	return -1
 
+def removeDuplicatesFromSortedArray(array):
+	n = len(array)
+	i = 0
+	if (n <= 1):
+		return n
+	for j in range(1, n):
+		if (array[j] != array[i]):
+			i += 1
+			array[i] = array[j]
+	return i + 1
 
+def sqrt(x):
+	i = 0
+	j = x / 2 + 1
+	while (i <= j):
+		mid = (i + j) / 2
+		sq = mid * mid
+		if (sq == x):
+			return mid
+		elif (sq < x):
+			i += mid
+		else:
+			j = mid - 1
+	return j
 
+def pathSum(root, sumVal):
+	stack = [(root, sumVal - root.data)]
+	visited = [root]
+	while (stack != []):
+		top = stack[-1]
+		node = top[0]
+		remaining = top[1]
+		if (node.left != None and node.left not in visited):
+			stack.append((node.left, remaining - node.left.data))
+		elif (node.right != None and node.right not in visited):
+			stack.append((node.right, remaining - node.right.data))
+		else:
+			if (remaining == 0):
+				return [i[0].data for i in stack]
+			else:
+				stack.pop()
+		visited.append(node)
+	return []
 
+def reverseInteger(integer):
+	sign = 1 if integer >= 0 else -1
+	integer = abs(integer)
+	if (integer == 0):
+		return 0
+	j = k = 1
+	while (integer / k > 0):
+		k *= 10
+	k /= 10
+	result = 0
+	while (k >= 1):
+		result = (integer / k) * j + result
+		integer = integer % k
+		k /= 10
+		j *= 10
+	return sign * result
 
 
 if __name__ == '__main__':
