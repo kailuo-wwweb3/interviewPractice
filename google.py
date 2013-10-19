@@ -45,7 +45,7 @@ def main():
 	# print results
 	# print uniquePaths(3,7)
 	# print uniquePath_dp(3, 7)
-	root = practice.convertSortedArrayToBST([1,2,3,4,5])
+	root = practice.convertSortedArrayToBST([1,2,3,4,5,6,7,8,9,10])
 	# print inorderSuccessor(root.left.left).data
 	# print decodeWays("12101123432")
 	# print maximumSubArray([-2,1,-3,4,-1,2,1,-5,4])
@@ -78,7 +78,8 @@ def main():
 	# print removeDuplicatesFromSortedArray(array)
 	# print sqrt(3)
 	# print pathSum(root, 12)
-	print reverseInteger(123)
+	# print reverseInteger(123)
+	printBSTLevelByLevel(root)
 
 
 
@@ -1009,6 +1010,23 @@ def reverseInteger(integer):
 		k /= 10
 		j *= 10
 	return sign * result
+
+def printBSTLevelByLevel(root):
+	if (root == None):
+		return
+	currentLevel = [root]
+	nextLevel = []
+	while (currentLevel != []):
+		current = currentLevel.pop(0)
+		print current.data,
+		if (current.left != None):
+			nextLevel.append(current.left)
+		if (current.right != None):
+			nextLevel.append(current.right)
+		if (currentLevel == []):
+			currentLevel, nextLevel = nextLevel, currentLevel
+			print '\n',
+
 
 
 if __name__ == '__main__':

@@ -29,7 +29,12 @@ def main():
 	# results = []
 	# placeQueens(0, columns, results)
 	# print results
-	print regularExpressionMatching("aab", "c*a*b*")
+	# print regularExpressionMatching("aab", "c*a*b*")
+	# print add(4,5)
+	st = SuffixTree("bibs")
+	# for i in st.root.children:
+	print st.search('ibs')
+
 
 def removeNthNodeFromEndOfList(head, n):
 	p1 = p2 = head
@@ -125,7 +130,7 @@ def checkValid(row, column, columns):
 # # N queens
 # GRID_SIZE = 4
 # def placeQueens(row, columns, results):
-# 	if (row == GRID_SIZE):ƒ
+# 	if (row == GRID_SIZE):
 # 		results.append(copy.copy(columns))
 # 	else:
 # 		for col in range(GRID_SIZE):
@@ -164,11 +169,51 @@ def regularExpressionMatching(s, p):
 		else:
 			return len(p) == 2
 
-#da gou gou wang! wang! wang!! :)
-def longestConsecutiveSequence(array):
+def add(a, b):
+	if (b == 0):
+		return a
+	sumVal = a ^ b
+	carry = (a & b) << 1
+	return add(sumVal, carry)
 
 
+class SuffixTree:
+	def __init__(self, s):
+		self.root = SuffixTreeNode()
+		for i in range(len(s)):
+			suffix = s[i : ]
+			self.root.insertString(suffix, i)
+	def search(self, s):
+		return self.root.search(s)
 
+class SuffixTreeNode:
+	def __init__(self):
+		self.children = {}
+		self.value = None
+		self.indexes = []
+
+	def insertString(self, s, index):
+		self.indexes.append(index)
+		if (s != None and len(s) > 0):
+			self.value = s[0]
+			child = None
+			if (self.children.has_key(self.value)):
+				child = self.children[self.value]
+			else:
+				child = SuffixTreeNode()
+				self.children[self.value] = child
+			remainder = s[1 : ]
+			child.insertString(remainder, index)
+
+	def search(self, s):
+		if (s == None or len(s) == 0):
+			return self.indexes
+		else:
+			first = s[0]
+			if (self.children.has_key(first)):
+				remainder = s[1 : ]
+				return self.children[first].search(remainder)
+		return None
 
 
 if __name__ == '__main__':
