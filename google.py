@@ -3,6 +3,7 @@ import copy
 import practice
 import random
 from collections import defaultdict
+
 def main():
 	# print findIntersectionOfTwoLists([1,2,3,4,5],[1,3,5,9,10])
 	# print validParentheses("()[()()({}{}[{}{}]{})()]{}}}")
@@ -79,7 +80,12 @@ def main():
 	# print sqrt(3)
 	# print pathSum(root, 12)
 	# print reverseInteger(123)
-	printBSTLevelByLevel(root)
+	# printBSTLevelByLevel2(root)
+	# array = [1,2,3,4,5,6,7,8,9]
+	# randomizeNumbers(array)
+	# print array
+	expression = "65+34+-"
+	print reversePolishNotation(expression)
 
 
 
@@ -1026,6 +1032,61 @@ def printBSTLevelByLevel(root):
 		if (currentLevel == []):
 			currentLevel, nextLevel = nextLevel, currentLevel
 			print '\n',
+
+def printBSTLevelByLevel2(root):
+	if (root == None):
+		return
+	queue = [root]
+	nodesInCurrentLevel = 1
+	nodesInNextLevel = 0
+	while (queue != []):
+		current = queue.pop(0)
+		nodesInCurrentLevel -= 1
+		print current.data,
+		if (current.left != None):
+			queue.append(current.left)
+			nodesInNextLevel += 1
+		if (current.right != None):
+			queue.append(current.right)
+			nodesInNextLevel += 1
+		if (nodesInCurrentLevel == 0):
+			print "\n",
+			nodesInCurrentLevel, nodesInNextLevel = nodesInNextLevel, nodesInCurrentLevel
+
+def randomizeNumbers(array):
+	for i in range(len(array) - 1, -1, -1):
+		index = random.randint(0, i)
+		array[i], array[index] = array[index], array[i]
+
+def reversePolishNotation(expression):
+	stack = list(expression)
+	return evaluateRPN(stack)
+
+def evaluateRPN(stack):
+	if (stack == []):
+		return 0
+	top = stack.pop()
+	if (top == '+'):
+		operand2 = evaluateRPN(stack)
+		operand1 = evaluateRPN(stack)
+		return operand1 + operand2
+	elif (top == '-'):
+		operand2 = evaluateRPN(stack)
+		operand1 = evaluateRPN(stack)
+		return operand1 - operand2
+	elif (top == '*'):
+		operand2 = evaluateRPN(stack)
+		operand1 = evaluateRPN(stack)
+		return operand1 * operand2
+	elif (top == '/'):
+		operand2 = evaluateRPN(stack)
+		operand1 = evaluateRPN(stack)
+		if (operand2 == 0):
+			return float('inf')
+		else:
+			return operand1 + operand2
+	else:
+		return int(top)
 
 
 
