@@ -801,11 +801,6 @@ def regularExpressionMatching(s, p):
 			index_s += 1
 		return regularExpressionMatching(s[index_s:], p[2:])
 
-def combinationSum(ls, target):
-	result = []
-	combinationSum_helper(ls, target, result)
-	return result
-
 # not constant space.
 def populateNextRightPointer(root):
 	setUpLevels(root, 0)
@@ -1087,6 +1082,7 @@ def evaluateRPN(stack):
 			return operand1 + operand2
 	else:
 		return int(top)
+
 
 
 
