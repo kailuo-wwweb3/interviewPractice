@@ -25,7 +25,11 @@ def main():
 
 	# root = constructBinaryTreeFromInorderAndPreorderT([1,2,3,4,5,6,7], [4,2,1,3,6,5,7])
 	# root = constructBinaryTreeFromInorderAndPostorderT([1,2,3,4,5,6,7], [1,3,2,5,7,6,4])
-	print NQueens()
+	# columns = [0] * GRIDSIZE
+	# results = []
+	# placeQueens(0, columns, results)
+	# print results
+	print regularExpressionMatching("aab", "c*a*b*")
 
 def removeNthNodeFromEndOfList(head, n):
 	p1 = p2 = head
@@ -95,7 +99,6 @@ def constructBinaryTreeFromInorderAndPostorderT(inorder, postorder):
 	root.right = constructBinaryTreeFromInorderAndPostorderT(inorder[rootIndex + 1 : ], postorder[rootIndex : -1])
 	return root
 
-GRIDSIZE = 4
 def NQueens():
 	result = []
 	columns = [0] * GRIDSIZE
@@ -105,19 +108,65 @@ def NQueens():
 def placeQueens(row, columns, result):
 	if (row == GRIDSIZE):
 		result.append(copy.copy(columns))
-		return
-	for column in range(GRIDSIZE):
-		if (checkValid(row, column, columns)):
-			columns[column] = row
-			placeQueens(row + 1, columns, result)
+	else:
+		for column in range(GRIDSIZE):
+			if (checkValid(row, column, columns)):
+				columns[row] = column
+				placeQueens(row + 1, columns, result)
 
 def checkValid(row, column, columns):
-	for column2 in range(len(columns)):
-		if (columns[column2] == row):
+	for row2 in range(row):
+		if (columns[row2] == column):
 			return False
-		if (abs(columns[column2] - row) == abs(column - column2)):
+		if (abs(columns[row2] - column) == row - row2):
 			return False
 	return True
+
+# # N queens
+# GRID_SIZE = 4
+# def placeQueens(row, columns, results):
+# 	if (row == GRID_SIZE):ƒ
+# 		results.append(copy.copy(columns))
+# 	else:
+# 		for col in range(GRID_SIZE):
+# 			if (checkValid(columns, row, col)):
+# 				columns[row] = col
+# 				placeQueens(row + 1, columns, results)
+
+# def checkValid(columns, row1, column1):
+# 	for row2 in range(row1):
+# 		column2 = columns[row2]
+# 		if (column1 == column2):
+# 			return False
+# 		columnDistance = abs(column2 - column1)
+# 		rowDistance = row1 - row2
+# 		if (columnDistance == rowDistance):
+# 			return False
+# 	return True
+GRIDSIZE = 4
+def regularExpressionMatching(s, p):
+	if (p == ""):
+		if (s != ""):
+			return False
+		else:
+			return True
+	if (len(p) == 1):
+		return s == p or p == "."
+	if (p[1] != "*"):
+		return (s[0] == p[0] or p[0] == ".") and regularExpressionMatching(s[1 : ], p[1 : ])
+	else:
+		# p[1] == "*"
+		if (p[0] != "."):
+			s_index = 0
+			while ((s_index <= len(s) - 1) and (s[s_index] == p[0])):
+				s_index += 1
+			return regularExpressionMatching(s[s_index : ], p[2 : ])
+		else:
+			return len(p) == 2
+
+#da gou gou wang! wang! wang!! :)
+def longestConsecutiveSequence(array):
+
 
 
 
