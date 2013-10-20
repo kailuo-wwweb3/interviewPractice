@@ -3,6 +3,7 @@ import copy
 import practice
 import random
 from collections import defaultdict
+import string
 
 def main():
 	# print findIntersectionOfTwoLists([1,2,3,4,5],[1,3,5,9,10])
@@ -71,7 +72,7 @@ def main():
 	# print searchInRSA(ls, 2)
 	# for i in ls:
 		# print searchInRSA(ls, i)
-	# print searchForRange([1,4,4,4,5,6,7], 4)
+	print searchForRange([1,4,4,4,5,6,7], 4)
 	# print threeSum([-25, -10, -7, -3, 2, 4, 8, 10], -25)
 	# print generateParentheses(4)
 	# print strStr("", "asdf")
@@ -84,8 +85,9 @@ def main():
 	# array = [1,2,3,4,5,6,7,8,9]
 	# randomizeNumbers(array)
 	# print array
-	expression = "65+34+-"
-	print reversePolishNotation(expression)
+	# expression = "65+34+-"
+	# print reversePolishNotation(expression)
+	print reverseWordsInAText("I want to get a job")
 
 
 
@@ -861,24 +863,25 @@ def searchInRSA_helper(array, k, start, end):
 		return searchInRSA_helper(array, k, mid + 1, end)
 
 def searchForRange(ls, target):
-	return searchForRange_helper(ls, target, 0, len(ls) - 1)
-
-def searchForRange_helper(array, target, start, end):
-	if (array[start] == array[end] == target):
-		return (start, end)
-	mid = (start + end) / 2
-	if (array[mid] < target):
-		return searchForRange_helper(array, target, mid + 1, end)
-	elif (array[mid] > target):
-		return searchForRange_helper(array, target, start, mid - 1)
-	else:
-		head = tail = mid
-		while ((array[head - 1] == target and head > start) or (array[tail + 1] == target and tail < end)):
-			if (array[head - 1] == target):
-				head -= 1
-			if (array[tail + 1] == target):
-				tail += 1
-		return (head, tail)
+	lower = 0
+	upper = len(ls)
+	while (lower < upper):
+		mid = (lower + upper) / 2
+		if (ls[mid] < target):
+			lower = mid + 1
+		else:
+			upper = mid
+	if (ls[lower] != target):
+		return (-1, -1)
+	upper = len(ls)
+	while (lower < upper):
+		mid = (lower + upper) / 2
+		if (ls[mid] > target):
+			upper = mid
+		else:
+			lower = mid + 1
+	return (lower, upper - 1)
+		
 
 def stringToInteger(string):
 	if (string == None):
@@ -1082,6 +1085,41 @@ def evaluateRPN(stack):
 			return operand1 + operand2
 	else:
 		return int(top)
+
+def reverseWordsInAText(text):
+	words = []
+	space = set(string.whitespace)
+	i = 0
+	while (i < len(text)):
+		if (text[i] not in space):
+			startIndex = i
+			while ((i < len(text)) and (text[i] not in space)):
+				i += 1
+			words.insert(0, text[startIndex : i])
+		else:
+			i += 1
+	return " ".join(words)
+
+class LRUCache:
+	def __init__(self):
+		self.head = None
+		self.hashTable = {}
+	def insertResults(self, query, result):
+		if (self.hashTable.has_key(query)):
+			node = self.hashTable[query]
+			node.result = result
+		else:
+			self.hashTable[query] = LRUCacheNode(result)
+		self.moveToFront(node)
+
+	def retrieveResult(self, query):
+		if (self.hashTable.has_key(query)):
+			node = self.hashTable[query]
+			self.moveToFront(node)
+			return node.result
+		else:
+			return None
+
 
 
 

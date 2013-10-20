@@ -1,8 +1,15 @@
+
+
+
 def main():
-	print 122
+	a = chain("abc", "ddd")
+	for i in a:
+		print i
 
-
-
+def chain(*iterables):
+	for it in iterables:
+		for element in it:
+			yield element
 
 
 
