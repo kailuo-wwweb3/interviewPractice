@@ -31,9 +31,10 @@ def main():
 	# print results
 	# print regularExpressionMatching("aab", "c*a*b*")
 	# print add(4,5)
-	st = SuffixTree("bibs")
+	# st = SuffixTree("bibs")
 	# for i in st.root.children:
-	print st.search('ibs')
+	# print st.search('ibs')
+	print longestCommonSubstring("abacd", "bacef")
 
 
 def removeNthNodeFromEndOfList(head, n):
@@ -214,6 +215,31 @@ class SuffixTreeNode:
 				remainder = s[1 : ]
 				return self.children[first].search(remainder)
 		return None
+
+def longestCommonSubstring(s1, s2):
+	if (s1 == None or s2 == None):
+		return None
+	n1 = len(s1)
+	n2 = len(s2)
+	if (n1 == 0 or n2 == 0):
+		return ""
+	table = {}
+	for i in range(n1):
+		for j in range(n2):
+			if (s1[i] == s2[j]):
+				if (i > 0 and j > 0):
+					table[(i, j)] = table[(i - 1, j - 1)] + 1
+				else:
+					table[(i, j)] = 1
+			else:
+				table[(i, j)] = 0
+	maxLen = 0
+	endIndex = 0
+	for i in table.keys():
+		if (table[i] > maxLen):
+			maxLen = table[i]
+			endIndex = i[0]
+	return s1[endIndex - maxLen + 1 : endIndex + 1]
 
 
 if __name__ == '__main__':

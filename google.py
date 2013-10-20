@@ -649,8 +649,6 @@ def inorderSuccessor(n):
 			n = n.parent
 		return n
 
-
-
 def decodeWays(s):
 	n = len(s)
 	if n == 0:
@@ -1119,8 +1117,6 @@ class LRUCache:
 			return node.result
 		else:
 			return None
-
-
 
 
 
