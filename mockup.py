@@ -230,6 +230,36 @@ def searchForRange(array, target):
 			lower = mid + 1
 	return (lower, upper - 1)
 
+class KeyValue:
+	def __init__(self, key, value):
+		self.key = key
+		self.value = value
+class HashTable:
+	TABLESIZE = 20
+	def __init__(self):
+		self.dataStore = [[]] * TABLESIZE
+
+	def get(self, key):
+		# get api
+		hashValue = self.hash(key)
+		for record in self.dataStore[hashValue]:
+			if (record.key == key):
+				return record.value
+
+
+	def set(self, key, value):
+		# set api
+		hashValue = self.hash(key)
+		keyValue = KeyValue(key, value)
+		self.dataStore[hashValue].append(keyValue)
+
+
+
+	def hash(self, key):
+		total = 0
+		for i in key:
+			total += ord(i)
+		return total % TABLESIZE
 
 
 
