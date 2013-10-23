@@ -12,7 +12,8 @@ def main():
 	# plusOne([1,2,3,4,5])
 	# print climbStairs(4)
 	# print longestCommonPrefix(["aaaaabb", "aaaaaabbb"])
-	print searchForRange([1,2,3,4,5,5,5,5,5,6,7,8], 5)
+	# print searchForRange([1,2,3,4,5,5,5,5,5,6,7,8], 5)
+	print generateParens2(4)
 
 
 def longestValidPratheses(string):
@@ -246,20 +247,52 @@ class HashTable:
 			if (record.key == key):
 				return record.value
 
-
 	def set(self, key, value):
 		# set api
 		hashValue = self.hash(key)
 		keyValue = KeyValue(key, value)
 		self.dataStore[hashValue].append(keyValue)
 
-
-
 	def hash(self, key):
 		total = 0
 		for i in key:
 			total += ord(i)
 		return total % TABLESIZE
+
+
+def populateNextPointerInEachNode(root):
+	if (root == None):
+		return
+	leftWall = root
+	while (leftWall != None):
+		across = leftWall
+		while (across != None):
+			if (across.left == None):
+				across.left.next = across.right
+			if (across.right != None and across.next != None):
+				across.right.next = across.next.left
+			across = across.next
+		leftWall = leftWall.left
+
+def addParen(ls, leftRem, rightRem, string, count):
+	if (leftRem < 0 or rightRem < leftRem):
+		return
+	if (leftRem == 0 and rightRem == 0):
+		s = copy.copy(string)
+		ls.append(s)
+	else:
+		if (leftRem > 0):
+			string[count] = '('
+			addParen(ls, leftRem - 1, rightRem, string, count + 1)
+		if (rightRem > 0):
+			string[count] = ')'
+			addParen(ls, leftRem, rightRem - 1, string, count + 1)
+
+def generateParens2(n):
+	ls = []
+	string = [''] * 2 * n
+	addParen(ls, n, n, string, 0)
+	return ["".join(i) for i in ls]
 
 
 

@@ -34,7 +34,16 @@ def main():
 	# st = SuffixTree("bibs")
 	# for i in st.root.children:
 	# print st.search('ibs')
-	print longestCommonSubstring("abacd", "bacef")
+	# print longestCommonSubstring("abacd", "bacef")
+	# print unionOfTwoSortedArray([1, 3, 4, 5, 7], [2, 3, 5, 6])
+	# print sum([int(i) for i in list(str(factorial(100)))])
+	# print validNumber("    0.1")
+	# print validNumber(" 0.1  ")
+	# print validNumber("abc")
+	# print validNumber("1  a")
+	# print validNumber("0.  1")
+	# uniqueAddition(4)
+	print searchForRange([1,2,3,4,5,5,5,6,7], 5)
 
 
 def removeNthNodeFromEndOfList(head, n):
@@ -240,6 +249,135 @@ def longestCommonSubstring(s1, s2):
 			maxLen = table[i]
 			endIndex = i[0]
 	return s1[endIndex - maxLen + 1 : endIndex + 1]
+
+def unionOfTwoSortedArray(array1, array2):
+	i = j = 0
+	union = []
+	while (i < len(array1) and j < len(array2)):
+		if (array1[i] < array2[j]):
+			union.append(array1[i])
+			i += 1
+		elif (array1[i] > array2[j]):
+			union.append(array2[j])
+			j += 1
+		else:
+			i += 1
+	union += array1[i + 1 : ]
+	union += array2[j + 1 : ]
+	return union
+
+def factorial(n):
+	if (n == 0):
+		return 1
+	return n * factorial(n - 1)
+
+
+def validNumber(s):
+	state = 0
+	for i in s:
+		state = tranferState(state, i)
+		if (state == -1):
+			return False
+	return state == 0 or state == 3 or state == 6 or state == 7
+
+def tranferState(state, x):
+	next = -1
+	if state == 0:
+		if x == ' ':
+			next = 0
+		elif x == '+' or x == '-':
+			next = 2
+		elif x == '.':
+			next = 1
+		elif x >= '0' and x <= '9':
+			next = 3
+		else:
+			next = -1
+	elif state == 1:
+		if x >= '0' and x <= '9':
+			next = 7
+		else:
+			next = -1
+	elif state == 2:
+		if x >= '0' and x <= '9':
+			next = 3
+		elif x == '.':
+			next = 1
+		else:
+			next = -1
+	elif state == 3:
+		if x >= '0' and x <= '9':
+			next = 3
+		elif x == '+' or x == '-':
+			next = 4
+		elif x == ' ':
+			next = 6
+		elif x == '.':
+			next = 7
+		else:
+			next = -1
+	elif state == 4:
+		if x >= '0' and x <= '9':
+			next = 5
+		else:
+			next = -1
+	elif state == 5:
+		if x >= '0' and x <= '9':
+			next = 5
+		elif x == ' ':
+			next = 6
+		else:
+			x = -1
+	elif state == 6:
+		if x == ' ':
+			next = 6
+		else:
+			x = -1
+	elif state == 7:
+		if x == ' ':
+			next = 6
+		elif x >= '0' and x <= '9':
+			next = 7
+		else:
+			next = -1
+	return next
+
+def uniqueAddition(n):
+	result = uniqueAddition_helper(n)
+	print result
+
+def uniqueAddition_helper(n):
+	if (n == 2):
+		return [[1,1]]
+	result = []
+	previous = uniqueAddition_helper(n - 1)
+	for i in previous:
+		i.append(1)
+		result.append(i)
+	for k in range(2, n):
+		result.append([n - k, k])
+	return result
+
+def searchForRange(array, target):
+	lower = 0
+	upper = len(array)
+	while (lower < upper):
+		mid = (lower + upper) / 2
+		if (array[mid] < target):
+			lower = mid + 1
+		else:
+			upper = mid
+	if (array[lower] != target):
+		return (-1, -1)
+	lower_copy, upper = 0, len(array)
+	while (lower_copy < upper):
+		mid = (lower_copy + upper) / 2
+		if (array[mid] > target):
+			upper = mid
+		else:
+			lower_copy = mid + 1
+	return (lower, upper - 1)
+
 
 
 if __name__ == '__main__':

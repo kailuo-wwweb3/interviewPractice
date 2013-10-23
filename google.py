@@ -323,6 +323,7 @@ def pow_imp(x, n):
 		return pow_imp(x, n / 2) * pow_imp(x, n / 2) * x
 
 
+
 class WordLadderRecord(object):
 	def __init__(self, word):
 		self.word = word
